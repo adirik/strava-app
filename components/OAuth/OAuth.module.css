@@ -1,0 +1,55 @@
+.oauthContainer {
+    height: 100vh;
+    width: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+    .oauthContainer {
+        background: rgba(0, 0, 0, 1);
+    }
+}
+
+.oauthContainer,
+.compact,
+.regular {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.compact {
+    width: 100%;
+}
+
+.regular {
+    width: 375px;
+}
+
+.oauthTitle {
+    text-align: center;
+    margin: 20px 30px;
+}
+
+.oauthDescription {
+    text-align: center;
+    padding: 30px;
+}
+
+.redirectButton {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: #f96500;
+    border: none;
+    border-radius: 6px;
+
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 600;
+
+    color: #fff;
+
+    padding: 5px 20px 5px 10px;
+}

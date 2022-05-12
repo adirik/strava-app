@@ -1,0 +1,25 @@
+.loadingMessage {
+    height: 100vh;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(255, 255, 255, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .loadingMessage {
+        background-color: rgba(0, 0, 0, 1);
+    }
+}
+
+.title {
+    margin: 5px;
+}
+
+.description {
+    opacity: 0.75;
+}

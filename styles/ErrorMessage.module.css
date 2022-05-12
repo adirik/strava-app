@@ -1,0 +1,39 @@
+.errorMessage {
+    height: 100vh;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: left;
+
+    background-color: rgba(255, 255, 255, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .errorMessage {
+        background-color: rgba(0, 0, 0, 1);
+    }
+}
+
+.compact {
+    width: 100%;
+}
+
+.regular {
+    width: 400px;
+}
+
+.title {
+    margin: 5px 20px 15px 20px;
+}
+
+.description {
+    width: 100%;
+    margin: 0 0 5px 0;
+    padding: 0 20px;
+
+    opacity: 0.75;
+}
