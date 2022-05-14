@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import Link from "next/link";
 import cw from "classnames";
 
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Search } from 'react-bootstrap-icons';
+
 import { useAPITokenContext } from "../../contexts/APIToken";
 import { useQueryParamsContext } from "../../contexts/QueryParams";
 import { DetailedSegment } from "../../data/stravaDataTypes";
@@ -69,6 +75,7 @@ export const StarredSegments: React.ComponentType<{
     }
 
     function setCurrentSegmentId(sid) {
+        history.pushState(null, null, "?s=" + sid);
         setQueryParams({segmentId: sid});
     }
 
@@ -109,63 +116,35 @@ export const StarredSegments: React.ComponentType<{
         }
     }
 
+    var currentSegment = starred.find(item => item.id == segmentId);
+    const currentSegmentName = currentSegment ? currentSegment.name : "Select a segment";
+
     starred.sort((a, b) => {
         return (b.elevation_high - b.elevation_low) - (a.elevation_high - a.elevation_low);
     });
 
     return (
-        <div className={styles.starredContainer}>
-            <ul className="list-group">
-                {starred.map(item => (
-                    <li
-                        key={item.id}
-                        onClick={() => setCurrentSegmentId(item.id)}
-                    >
-                        <Link
-                            href={{
-                                pathname: '/',
-                                query: { s: item.id },
-                            }}
-                        >
-                            <a className={cw("list-group-item", "list-group-item-action", {active: item.id == segmentId})} style={{textDecoration: 'none'}}>
-                                {item.name}&nbsp;{item.climb_category > 0 && <span className="badge rounded-pill bg-secondary">Cat {item.climb_category}</span>}
-                                <br/>
-                                ({formatDistance(units, item.distance)}, {formatElevation(units, item.elevation_high - item.elevation_low)}, {item.average_grade}% grade)
-                            </a>
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-            {/*
-            <table>
-                <thead>
-                    <tr>
-                        <th>Segment Name</th>
-                        <th>Distance (mi)</th>
-                        <th>Elevation (ft)</th>
-                        <th>Avg Grade (%)</th>
-                        <th>Cat</th>
-                        <th># Efforts</th>
-                        <th>PR</th>
-                        <th>PR Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {starred.map(item => (
-                        <tr key={item.id}>
-                            <th><Link href={`/segments/${encodeURIComponent(item.id)}`}><a>{item.name}</a></Link></th>
-                            <td>{Math.round(metersToMiles(item.distance)*100)/100}</td>
-                            <td>{Math.round(metersToFeet(item.elevation_high - item.elevation_low))}</td>
-                            <td>{Math.round(item.average_grade*100)/100}%</td>
-                            <td>{item.climb_category}</td>
-                            <td>{item.athlete_segment_stats?.effort_count}</td>
-                            <td>{elapsedTimeToString(item.athlete_pr_effort.elapsed_time)}</td>
-                            <td>{new Date(item.athlete_pr_effort.start_date).toLocaleDateString()}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            */}
-        </div>
+        <NavDropdown title={currentSegmentName} id="basic-nav-dropdown">
+          <div className={styles.searchForm}>
+              <Form className="d-flex">
+                <FormControl
+                  type="search"
+                  placeholder="Search"
+                  className="me-2"
+                  aria-label="Search"
+                />
+                <Button variant="outline-success"><Search/></Button>
+              </Form>
+          </div>
+          <div className={styles.scrollableMenu}>
+              {starred.map(item => (
+                  <NavDropdown.Item className={styles.borderedItem} active={item.id == segmentId} onClick={() => setCurrentSegmentId(item.id)}>
+                        {item.name}&nbsp;{item.climb_category > 0 && <span className="badge rounded-pill bg-secondary">Cat {item.climb_category}</span>}
+                        <br/>
+                        ({formatDistance(units, item.distance)}, {formatElevation(units, item.elevation_high - item.elevation_low)}, {item.average_grade}% grade)
+                  </NavDropdown.Item>
+              ))}
+          </div>
+        </NavDropdown>
     );
 };

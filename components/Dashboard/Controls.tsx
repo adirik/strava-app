@@ -1,22 +1,35 @@
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
 import cw from "classnames";
 
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+
 import styles from "./Dashboard.module.css";
-import { Units, useUnits } from "../../data/useUnits";
+import { Units } from "../../data/useUnits";
 import { useUnitsContext } from "../../contexts/Units";
+
+import { StarredSegments } from "../Dashboard/StarredSegments";
+import { UnitControls } from "./UnitControls";
 
 export const Controls: React.ComponentType = () => {
     const { units, setUnits } = useUnitsContext();
+    const [currentSegment, setCurrentSegment] = useState<any>(null);
 
     return (
-        <nav className="navbar navbar-light bg-light">
-            <div className="btn-group" role="group">
-                <input type="radio" className="btn-check" name="btnradio" id="btnradio1" autoComplete="off" defaultChecked={units == Units.IMPERIAL} onClick={() => setUnits(Units.IMPERIAL)}/>
-                <label className="btn btn-outline-primary" htmlFor="btnradio1">MI</label>
-                <input type="radio" className="btn-check" name="btnradio" id="btnradio2" autoComplete="off" defaultChecked={units == Units.METRIC} onClick={() => setUnits(Units.METRIC)}/>
-                <label className="btn btn-outline-primary" htmlFor="btnradio2">KM</label>
-            </div>
-        </nav>
+        <Navbar bg="light" expand="lg">
+          <Container>
+            <Navbar.Brand href="#home">S<sup>3</sup>A</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto">
+                <StarredSegments currentSegment={currentSegment} setCurrentSegment={setCurrentSegment}/>
+              </Nav>
+              <Navbar.Collapse className="justify-content-end">
+                <UnitControls/>
+              </Navbar.Collapse>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
     );
 };

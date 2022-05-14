@@ -317,16 +317,6 @@ export const SegmentDetail: React.ComponentType<> = () => {
     const { units } = useUnitsContext();
     const segmentId = queryParams.segmentId;
 
-    if (!segmentId) {
-        return (
-            <div className={loadingStyles.loadingMessage}>
-                <h2 className={cw(loadingStyles.title, typography.titleReduced)}>
-                    Select a Segment...
-                </h2>
-            </div>
-        );
-    }
-
     const { access_token } = tokenResponse;
 
     const segmentResult = getDetailedSegment(segmentId, access_token);
@@ -363,8 +353,7 @@ export const SegmentDetail: React.ComponentType<> = () => {
     }
 
     if (isSegmentError || isSegmentEffortsError) {
-        const err = isSegmentError;
-
+        const err = segmentError;
         if (err?.message === "Authorization Error") {
             return <OAuth />;
         } else {
@@ -399,40 +388,35 @@ export const SegmentDetail: React.ComponentType<> = () => {
         }
     }
 
-    const scatterData = getScatterData(units, segmentEfforts);
+    const scatterData = segmentEfforts.length > 1 ? getScatterData(units, segmentEfforts) : null;
  
     return (
         <div className={styles.detailContainer}>
             <h3>
                 {segment.name}&nbsp;<img src={segment.elevation_profile}/>
             </h3>
-            Showing {segmentEfforts.length} of {segment.athlete_segment_stats.effort_count} effort(s), PR {elapsedTimeToString(segment.athlete_segment_stats.pr_elapsed_time)} on {new Date(segment.athlete_segment_stats.pr_date).toLocaleDateString()}
-            <br/>
-            {/*
-            <div className={styles.effortContainer}>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Avg Watts</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {segmentEfforts.map(item => (
-                            <tr key={item.id}>
-                                <td>{new Date(item.start_date).toLocaleDateString()}</td>
-                                <td>{elapsedTimeToString(item.elapsed_time)}</td>
-                                <td>{Math.round(item.average_watts*100)/100}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-            */}
-            <div className={styles.scatterContainer}>
-                <Scatter options={scatterOptions} data={scatterData} />
-            </div>
+            <h4>
+                {segmentEfforts.length == 0 &&
+                    <span>{segmentEfforts.length} efforts</span>
+                }
+                {segmentEfforts.length == 1 &&
+                    <span>{segmentEfforts.length} effort</span>
+                }
+                {segmentEfforts.length > 1 && segmentEfforts.length < segment.athlete_segment_stats.effort_count &&
+                    <span>Showing {segmentEfforts.length} of {segment.athlete_segment_stats.effort_count} efforts</span>
+                }
+                {segmentEfforts.length > 1 && segmentEfforts.length == segment.athlete_segment_stats.effort_count &&
+                    <span>{segmentEfforts.length} efforts</span>
+                }
+                {segmentEfforts.length > 0 &&
+                    <span>, PR {elapsedTimeToString(segment.athlete_segment_stats.pr_elapsed_time)} on {new Date(segment.athlete_segment_stats.pr_date).toLocaleDateString()}</span>
+                }
+            </h4>
+            {scatterData != null &&
+                <div className={styles.scatterContainer}>
+                    <Scatter options={scatterOptions} data={scatterData} />
+                </div>
+            }
         </div>
     );
 };

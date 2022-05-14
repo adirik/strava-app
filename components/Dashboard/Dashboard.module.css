@@ -19,6 +19,22 @@
     left: 10px;
 }
 
+.scrollableMenu {
+    height: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+}
+
+.searchForm {
+  margin: 8px;
+}
+
+.borderedItem {
+  border-color: lightgray;
+  border-width: 1px 0px 0px 0px;
+  border-style: solid
+}
+
 .detailContainer {
     width: 100%;
     margin: 10px;
