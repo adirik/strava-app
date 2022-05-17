@@ -112,7 +112,7 @@ export const SegmentDetail: React.ComponentType = () => {
         }
     }
 
-    const scatterData = segmentEfforts.length > 1 ? getScatterData(yAxis, units, segmentEfforts) : null;
+    var scatterData = segmentEfforts.length > 1 ? getScatterData(yAxis, units, segmentEfforts) : null;
     const scatterOptions = yAxis == YAxis.ELAPSED_TIME ? scatterOptionsElapsedTime : scatterOptionsAvgWatts;
 
     return (
