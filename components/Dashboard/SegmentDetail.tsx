@@ -33,7 +33,7 @@ import { Scatter } from 'react-chartjs-2';
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
-export const SegmentDetail: React.ComponentType<> = () => {
+export const SegmentDetail: React.ComponentType = () => {
     const { tokenResponse } = useAPITokenContext();
     const { queryParams } = useQueryParamsContext();
     const sizeClass = useHorizontalSizeClass();
