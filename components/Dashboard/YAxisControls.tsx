@@ -1,35 +1,36 @@
 import React, { useState } from "react";
+//import cw from "classnames";
 
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Navbar from 'react-bootstrap/Navbar';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 
-import { Units } from "../../data/useUnits";
-import { useUnitsContext } from "../../contexts/Units";
+import { YAxis } from "../../data/useYAxis";
+import { useYAxisContext } from "../../contexts/YAxis";
 import styles from "./Dashboard.module.css";
 
-export const UnitControls: React.ComponentType = () => {
-    const { units, setUnits } = useUnitsContext();
+export const YAxisControls: React.ComponentType = () => {
+    const { yAxis, setYAxis } = useYAxisContext();
     const radios = [
-        { name: 'MI', value: Units.IMPERIAL },
-        { name: 'KM', value: Units.METRIC },
+        { name: 'Time', value: YAxis.ELAPSED_TIME },
+        { name: 'Power', value: YAxis.AVG_WATTS },
     ];
 
     return (
       <div>
         <Navbar.Text>
-          <span className={styles.controlsLabel}>Units:</span>
+          <span className={styles.controlsLabel}>Y Axis:</span>
         </Navbar.Text>
         <ButtonGroup>
           {radios.map((radio, idx) => (
               <ToggleButton
                 key={idx}
-                id={`radio-units-${idx}`}
+                id={`radio-yaxis-${idx}`}
                 type="radio"
                 value={radio.value}
-                checked={units === radio.value}
-                onChange={(e) => setUnits(e.currentTarget.value)}
+                checked={yAxis === radio.value}
+                onChange={(e) => setYAxis(e.currentTarget.value)}
               >
                 {radio.name}
               </ToggleButton>

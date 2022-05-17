@@ -1,3 +1,4 @@
+import React from "react";
 import { Units } from "../data/useUnits";
 
 export function metersToFeet(meters: number) {
@@ -75,6 +76,30 @@ export function timeStrToSeconds(str = ""): number {
     const [hours, minutes, seconds] = parts;
 
     return hours * 60 * 60 + minutes * 60 + seconds;
+}
+
+export function elapsedTimeToString(elapsed: number): string {
+    const minutes = Math.floor(elapsed/60);
+    const secondsStr = `${elapsed % 60}`;
+    return minutes + ':' + secondsStr.padStart(2, '0');
+}
+
+export function effortDay(startYear: number, date: Date): number {
+    const year = date.getFullYear();
+    const result = Math.floor((date - new Date(year, 0, 0)) / 1000 / 60 / 60 / 24);
+    return result + 365 * (year - startYear + 1);
+}
+
+const unitsStyle = {
+  fontSize: 'smaller'
+};
+
+export function formatDistance(units: Units, distance: number): string {
+    return <span><span>{distanceStr(units, distance)}</span><span style={unitsStyle}>{unitsStr(units, "km")}</span></span>;
+}
+
+export function formatElevation(units: Units, distance: number): string {
+    return <span><span>{elevationStr(units, distance)}</span><span style={unitsStyle}>{unitsStr(units, "m")}</span></span>;
 }
 
 export function secondsToMinutes(seconds: number): string {

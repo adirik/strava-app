@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import cw from "classnames";
 
 import { SegmentDetail } from "../Dashboard/SegmentDetail";
 import { Controls } from "../Dashboard/Controls";
 import { UnitsProvider } from "../../contexts/Units";
+import { YAxisProvider } from "../../contexts/YAxis";
 import { useQueryParamsContext } from "../../contexts/QueryParams";
 
 import styles from "./Dashboard.module.css";
@@ -19,12 +19,12 @@ export const Dashboard: React.ComponentType = () => {
     return (
         <div>
             <UnitsProvider>
-                <Controls />
-                <div className={styles.dashboardContainer}>
+                <YAxisProvider>
+                    <Controls />
                     {segmentId &&
                         <SegmentDetail />
                     }
-                </div>
+                </YAxisProvider>
             </UnitsProvider>
         </div>
     );
