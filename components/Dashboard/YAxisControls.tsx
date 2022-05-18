@@ -30,7 +30,7 @@ export const YAxisControls: React.ComponentType = () => {
                 type="radio"
                 value={radio.value}
                 checked={yAxis === radio.value}
-                onChange={(e) => setYAxis(e.currentTarget.value)}
+                onChange={(e) => setYAxis(e.currentTarget.value as YAxis)}
               >
                 {radio.name}
               </ToggleButton>

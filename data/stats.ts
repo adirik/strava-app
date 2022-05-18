@@ -11,7 +11,7 @@ export function calculateOutliers(sortedArray: Array<any>, field: YAxis): Array<
     const iqr = q3Effort[field] - q1Effort[field];
     const upperFence = q3Effort[field] + (1.5 * iqr);
     const lowerFence = q1Effort[field] - (1.5 * iqr);
-    const index = 0;
+    let index = 0;
     while (index < sortedArray.length) {
         if ((ascending && sortedArray[index][field] < lowerFence) ||
             (!ascending && sortedArray[index][field] > upperFence)) {
@@ -34,7 +34,7 @@ export function calculateLinearRegression(x_values: Array<number>, y_values: Arr
     const x_mean = x_values.reduce((a, b) => a + b, 0)/x_values.length;
     const y_mean = y_values.reduce((a, b) => a + b, 0)/y_values.length;
 
-    const slope_numerator = 0, slope_denominator = 0;
+    let slope_numerator = 0, slope_denominator = 0;
     x_values.forEach((x, i) => {
         slope_numerator += (x - x_mean) * (y_values[i] - y_mean);
         slope_denominator += Math.pow((x - x_mean), 2);
@@ -42,7 +42,7 @@ export function calculateLinearRegression(x_values: Array<number>, y_values: Arr
 
     const slope = slope_numerator / slope_denominator;
     const intercept = y_mean - x_mean * slope;
-    const data = [];
+    const data: DataPoint[] = [];
     x_values.forEach((x, i) => {
         data.push({
             x: x,

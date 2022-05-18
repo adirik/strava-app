@@ -15,7 +15,7 @@ import { SizeClass, useHorizontalSizeClass } from "../../utils/useSizeClass";
 import { formatDistance, formatElevation } from "../../utils/unitConversions";
 import { Units } from "../../data/useUnits";
 import { useUnitsContext } from "../../contexts/Units";
-
+import { SummarySegment } from "../../data/stravaDataTypes";
 import { OAuth } from "../OAuth/OAuth";
 
 import styles from "./Dashboard.module.css";
@@ -45,13 +45,13 @@ export const StarredSegments: React.ComponentType<{
         error: starredError,
     } = starredResult;
 
-    function setCurrentSegmentId(sid) {
-        history.pushState(null, null, "?s=" + sid);
-        setQueryParams({segmentId: sid});
+    function setCurrentSegmentId(sid: string) {
+        history.pushState(null, "", "?s=" + sid);
+        setQueryParams({authorizationCode: queryParams.authorizationCode, segmentId: sid});
     }
 
     if (isStarredError) {
-        const err = isStarredError;
+        const err = starredError;
 
         if (err?.message === "Authorization Error") {
             return <OAuth />;
@@ -87,7 +87,9 @@ export const StarredSegments: React.ComponentType<{
         }
     }
 
-    var currentSegment = starred?.find(item => item.id == segmentId);
+    if (!currentSegment) {
+        currentSegment = starred?.find(item => String(item.id) === segmentId);        
+    }
     const currentSegmentName = isStarredLoading ? "Loading..." : (currentSegment ? currentSegment.name : "Select a segment");
 
     starred?.sort((a, b) => {
@@ -109,7 +111,7 @@ export const StarredSegments: React.ComponentType<{
           </div>
           <div className={styles.scrollableMenu}>
               {starred?.map(item => (
-                  <NavDropdown.Item className={styles.borderedItem} active={item.id == segmentId} onClick={() => setCurrentSegmentId(item.id)}>
+                  <NavDropdown.Item key={item.id} className={styles.borderedItem} active={String(item.id) === segmentId} onClick={() => setCurrentSegmentId(String(item.id))}>
                         {item.name}&nbsp;{item.climb_category > 0 && <span className="badge rounded-pill bg-secondary">Cat {item.climb_category}</span>}
                         <br/>
                         ({formatDistance(units, item.distance)}, {formatElevation(units, item.elevation_high - item.elevation_low)}, {item.average_grade}% grade)

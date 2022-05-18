@@ -1,4 +1,5 @@
 import React from "react";
+import { ReactElement } from "react";
 import { Units } from "../data/useUnits";
 
 export function metersToFeet(meters: number) {
@@ -86,19 +87,18 @@ export function elapsedTimeToString(elapsed: number): string {
 
 export function effortDay(startYear: number, date: Date): number {
     const year = date.getFullYear();
-    const result = Math.floor((date - new Date(year, 0, 0)) / 1000 / 60 / 60 / 24);
+    const result = Math.floor((date.getTime() - new Date(year, 0, 0).getTime()) / 1000 / 60 / 60 / 24);
     return result + 365 * (year - startYear + 1);
 }
 
 const unitsStyle = {
-  fontSize: 'smaller'
+    fontSize: 'smaller'
 };
 
-export function formatDistance(units: Units, distance: number): string {
-    return <span><span>{distanceStr(units, distance)}</span><span style={unitsStyle}>{unitsStr(units, "km")}</span></span>;
-}
+export function formatDistance(units: Units, distance: number): ReactElement {
+    return <span><span>{distanceStr(units, distance)}</span><span style={unitsStyle}>{unitsStr(units, "km")}</span></span>;}
 
-export function formatElevation(units: Units, distance: number): string {
+export function formatElevation(units: Units, distance: number): ReactElement {
     return <span><span>{elevationStr(units, distance)}</span><span style={unitsStyle}>{unitsStr(units, "m")}</span></span>;
 }
 

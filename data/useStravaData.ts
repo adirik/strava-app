@@ -22,7 +22,7 @@ const queryOptions = {
     refetchOnWindowFocus: false,
 };
 
-export function getStarredSegments(token) {
+export function getStarredSegments(token: string) {
     return useQuery<SummarySegment[], Error>(
         "starred",
         () => stravaAPI(`/segments/starred?page=1&per_page=50`, token),
@@ -30,7 +30,7 @@ export function getStarredSegments(token) {
     );
 }
 
-export function getDetailedSegment(segmentId: string, token) {
+export function getDetailedSegment(segmentId: string, token: string) {
     return useQuery<DetailedSegment, Error>(
         "segment" + segmentId,
         () => stravaAPI(`/segments/${segmentId}`, token),
@@ -38,7 +38,7 @@ export function getDetailedSegment(segmentId: string, token) {
     );
 }
 
-export function getSegmentEfforts(segmentId: string, numEfforts: number, token) {
+export function getSegmentEfforts(segmentId: string, numEfforts: number, token: string) {
     const end = new Date(Date.now());
     const opts = { 
         startDateLocal: '2009-07-11T05:00:00+00:00', // {Date} ISO 8601 formatted date time.
@@ -99,7 +99,7 @@ export function getSegmentEfforts(segmentId: string, numEfforts: number, token) 
     return segmentEffortResult;
 }
 
-export function getActivity(activityId: string, token) {
+export function getActivity(activityId: string, token: string) {
     return useQuery<DetailedActivity, Error>(
         "activities" + activityId,
         () => stravaAPI(`/activities/${activityId}`, token),

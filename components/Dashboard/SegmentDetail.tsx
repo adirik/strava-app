@@ -13,6 +13,7 @@ import { useUnitsContext } from "../../contexts/Units";
 import { useYAxisContext } from "../../contexts/YAxis";
 import { getScatterData, scatterOptionsElapsedTime, scatterOptionsAvgWatts } from "../../data/scatter";
 import { YAxis } from "../../data/useYAxis";
+import { Units } from "../../data/useUnits";
 
 import { OAuth } from "../OAuth/OAuth";
 
@@ -115,33 +116,38 @@ export const SegmentDetail: React.ComponentType = () => {
     const scatterData = typeof segmentEfforts !== "undefined" && segmentEfforts?.length > 1 ? getScatterData(yAxis, units, segmentEfforts) : null;
     const scatterOptions = yAxis == YAxis.ELAPSED_TIME ? scatterOptionsElapsedTime : scatterOptionsAvgWatts;
 
+    const distance = segment ? formatDistance(units, segment.distance) : null;
+    const elevation = segment ? formatElevation(units as Units, segment.elevation_high - segment.elevation_low) : null;
+
     return (
         <Container>
             <h4>
-                {segment.climb_category > 0 && <span className="badge rounded-pill bg-secondary">Cat {segment.climb_category}</span>}
-                &nbsp;
-                ({formatDistance(units, segment.distance)}, {formatElevation(units, segment.elevation_high - segment.elevation_low)}, {segment.average_grade}% grade)
-                &nbsp;
-                <img src={segment.elevation_profile}/>
+                {segment && segment.climb_category > 0 &&
+                    <span className="badge rounded-pill bg-secondary">Cat {segment.climb_category}</span>
+                }
+                {segment &&
+                    <span>({distance}, {elevation}, {segment.average_grade}% grade)&nbsp;<img src={segment.elevation_profile}/>
+                    </span>
+                }
             </h4>
             <h5>
-                {segmentEfforts.length == 0 &&
+                {segmentEfforts && segmentEfforts.length == 0 &&
                     <span>{segmentEfforts.length} efforts</span>
                 }
-                {segmentEfforts.length == 1 &&
+                {segmentEfforts && segmentEfforts.length == 1 &&
                     <span>{segmentEfforts.length} effort</span>
                 }
-                {segmentEfforts.length > 1 && segmentEfforts.length < segment.athlete_segment_stats.effort_count &&
+                {segmentEfforts && segment && segmentEfforts.length > 1 && segmentEfforts.length < segment.athlete_segment_stats.effort_count &&
                     <span>Showing {segmentEfforts.length} of {segment.athlete_segment_stats.effort_count} efforts</span>
                 }
-                {segmentEfforts.length > 1 && segmentEfforts.length == segment.athlete_segment_stats.effort_count &&
+                {segmentEfforts && segment && segmentEfforts.length > 1 && segmentEfforts.length == segment.athlete_segment_stats.effort_count &&
                     <span>{segmentEfforts.length} efforts</span>
                 }
-                {segmentEfforts.length > 0 &&
+                {segmentEfforts && segment && segmentEfforts.length > 0 &&
                     <span>, PR {elapsedTimeToString(segment.athlete_segment_stats.pr_elapsed_time)} on {new Date(segment.athlete_segment_stats.pr_date).toLocaleDateString()}</span>
                 }
             </h5>
-            {scatterData != null &&
+            {scatterData &&
                 <div className={styles.scatterContainer}>
                     <Scatter options={scatterOptions} data={scatterData} />
                 </div>

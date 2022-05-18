@@ -29,7 +29,7 @@ export const UnitControls: React.ComponentType = () => {
                 type="radio"
                 value={radio.value}
                 checked={units === radio.value}
-                onChange={(e) => setUnits(e.currentTarget.value)}
+                onChange={(e) => setUnits(e.currentTarget.value as Units)}
               >
                 {radio.name}
               </ToggleButton>
