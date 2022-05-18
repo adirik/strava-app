@@ -36,9 +36,21 @@
 }
 
 .controlsLabel {
-  padding-left: 8px;
-  padding-right: 4px;
+  display: inline-block;
+  width: 65px;
+  text-align: right;
+  padding-right: 8px;
   font-size: smaller;
+}
+
+.navbarControl {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.chartHeader {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .detailContainer {

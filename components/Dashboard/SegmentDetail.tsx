@@ -121,32 +121,34 @@ export const SegmentDetail: React.ComponentType = () => {
 
     return (
         <Container>
-            <h4>
-                {segment && segment.climb_category > 0 &&
-                    <span className="badge rounded-pill bg-secondary">Cat {segment.climb_category}</span>
-                }
-                {segment &&
-                    <span>({distance}, {elevation}, {segment.average_grade}% grade)&nbsp;<img src={segment.elevation_profile}/>
-                    </span>
-                }
-            </h4>
-            <h5>
-                {segmentEfforts && segmentEfforts.length == 0 &&
-                    <span>{segmentEfforts.length} efforts</span>
-                }
-                {segmentEfforts && segmentEfforts.length == 1 &&
-                    <span>{segmentEfforts.length} effort</span>
-                }
-                {segmentEfforts && segment && segmentEfforts.length > 1 && segmentEfforts.length < segment.athlete_segment_stats.effort_count &&
-                    <span>Showing {segmentEfforts.length} of {segment.athlete_segment_stats.effort_count} efforts</span>
-                }
-                {segmentEfforts && segment && segmentEfforts.length > 1 && segmentEfforts.length == segment.athlete_segment_stats.effort_count &&
-                    <span>{segmentEfforts.length} efforts</span>
-                }
-                {segmentEfforts && segment && segmentEfforts.length > 0 &&
-                    <span>, PR {elapsedTimeToString(segment.athlete_segment_stats.pr_elapsed_time)} on {new Date(segment.athlete_segment_stats.pr_date).toLocaleDateString()}</span>
-                }
-            </h5>
+            <div className={styles.chartHeader}>
+                <h4>
+                    {segment && segment.climb_category > 0 &&
+                        <span className="badge rounded-pill bg-secondary">Cat {segment.climb_category}</span>
+                    }
+                    {segment &&
+                        <span>&nbsp;&nbsp;({distance}, {elevation}, {segment.average_grade}% grade)&nbsp;&nbsp;<img src={segment.elevation_profile}/>
+                        </span>
+                    }
+                </h4>
+                <h5>
+                    {segmentEfforts && segmentEfforts.length == 0 &&
+                        <span>{segmentEfforts.length} efforts</span>
+                    }
+                    {segmentEfforts && segmentEfforts.length == 1 &&
+                        <span>{segmentEfforts.length} effort</span>
+                    }
+                    {segmentEfforts && segment && segmentEfforts.length > 1 && segmentEfforts.length < segment.athlete_segment_stats.effort_count &&
+                        <span>Showing {segmentEfforts.length} of {segment.athlete_segment_stats.effort_count} efforts</span>
+                    }
+                    {segmentEfforts && segment && segmentEfforts.length > 1 && segmentEfforts.length == segment.athlete_segment_stats.effort_count &&
+                        <span>{segmentEfforts.length} efforts</span>
+                    }
+                    {segmentEfforts && segment && segmentEfforts.length > 0 &&
+                        <span>, PR {elapsedTimeToString(segment.athlete_segment_stats.pr_elapsed_time)} on {new Date(segment.athlete_segment_stats.pr_date).toLocaleDateString()}</span>
+                    }
+                </h5>
+            </div>
             {scatterData &&
                 <div className={styles.scatterContainer}>
                     <Scatter options={scatterOptions} data={scatterData} />

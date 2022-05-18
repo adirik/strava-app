@@ -118,15 +118,6 @@ export const scatterOptionsAvgWatts = {
         evt.native.target.style.cursor = activityId ? 'pointer' : 'default';
     },
     scales: {
-        y: {
-            //beginAtZero: true,
-            reverse: true,
-            ticks: {
-                callback: function(value: any, index: number, ticks: any) {
-                    return elapsedTimeToString(value);
-                }
-            }
-        },
         x: {
             min: effortDay(START_YEAR, new Date('2009-01-01T00:00:00 00:00')),
             ticks: {

@@ -17,7 +17,7 @@ export const UnitControls: React.ComponentType = () => {
     ];
 
     return (
-      <div>
+      <div className={styles.navbarControl}>
         <Navbar.Text>
           <span className={styles.controlsLabel}>Units:</span>
         </Navbar.Text>
