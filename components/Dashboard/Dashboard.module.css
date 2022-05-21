@@ -19,6 +19,11 @@
     left: 10px;
 }
 
+.emptyDropdown {
+    width: 200px;
+    margin: 20px;
+}
+
 .scrollableMenu {
     height: auto;
     max-height: 300px;

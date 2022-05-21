@@ -35,9 +35,10 @@ export const StarredSegments: React.ComponentType<{
     const sizeClass = useHorizontalSizeClass();
     const segmentId = queryParams.segmentId;
     const { units } = useUnitsContext();
+    const [ segmentSearch, setSegmentSearch ] = useState<any>('');
 
     const { access_token } = tokenResponse;
-    const starredResult = getStarredSegments(access_token);
+    const starredResult = getStarredSegments(segmentSearch, access_token);
     const {
         isLoading: isStarredLoading,
         isError: isStarredError,
@@ -49,6 +50,11 @@ export const StarredSegments: React.ComponentType<{
         history.pushState(null, "", "?s=" + sid);
         setQueryParams({authorizationCode: queryParams.authorizationCode, segmentId: sid});
     }
+    /*
+    function onTextChange(e) {
+        setSegmentSearch(e.target.value);
+    }
+    */
 
     if (isStarredError) {
         const err = starredError;
@@ -95,9 +101,22 @@ export const StarredSegments: React.ComponentType<{
     starred?.sort((a, b) => {
         return (b.elevation_high - b.elevation_low) - (a.elevation_high - a.elevation_low);
     });
+    const defaultShow = !currentSegment;
+
+    var filtered = starred?.slice();
+    if (!isStarredLoading) {
+        const segmentSearchLowerCase = segmentSearch.toLowerCase();
+        filtered = starred?.filter(item => {
+            if (!segmentSearch || segmentSearch.length == 0) {
+                return true;
+            } else {
+                return item.name.toLowerCase().startsWith(segmentSearchLowerCase);
+            }
+        });
+    }
 
     return (
-        <NavDropdown title={currentSegmentName} id="basic-nav-dropdown">
+        <NavDropdown title={currentSegmentName} id="basic-nav-dropdown" defaultShow={defaultShow}>
           <div className={styles.searchForm}>
               <Form className="d-flex">
                 <FormControl
@@ -105,12 +124,22 @@ export const StarredSegments: React.ComponentType<{
                   placeholder="Search"
                   className="me-2"
                   aria-label="Search"
+                  onChange={(e) => setSegmentSearch(e.target.value)}
                 />
-                <Button variant="outline-success"><Search/></Button>
               </Form>
           </div>
           <div className={styles.scrollableMenu}>
-              {starred?.map(item => (
+              {isStarredLoading &&
+                  <div className={styles.emptyDropdown}>
+                        Loading...
+                  </div>
+              }
+              {segmentSearch && filtered?.length === 0 &&
+                  <div className={styles.emptyDropdown}>
+                        <i>No segments found</i>
+                  </div>
+              }
+              {filtered?.map(item => (
                   <NavDropdown.Item key={item.id} className={styles.borderedItem} active={String(item.id) === segmentId} onClick={() => setCurrentSegmentId(String(item.id))}>
                         {item.name}&nbsp;{item.climb_category > 0 && <span className="badge rounded-pill bg-secondary">Cat {item.climb_category}</span>}
                         <br/>

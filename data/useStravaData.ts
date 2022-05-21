@@ -22,12 +22,13 @@ const queryOptions = {
     refetchOnWindowFocus: false,
 };
 
-export function getStarredSegments(token: string) {
-    return useQuery<SummarySegment[], Error>(
+export function getStarredSegments(segmentSearch: string, token: string) {
+    const starredResult = useQuery<SummarySegment[], Error>(
         "starred",
         () => stravaAPI(`/segments/starred?page=1&per_page=50`, token),
         queryOptions
     );
+    return starredResult;
 }
 
 export function getDetailedSegment(segmentId: string, token: string) {

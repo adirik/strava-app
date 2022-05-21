@@ -123,12 +123,14 @@ export const SegmentDetail: React.ComponentType = () => {
         <Container>
             <div className={styles.chartHeader}>
                 <h4>
+                    {segment &&
+                        <span>{segment.name}&nbsp;</span>
+                    }
                     {segment && segment.climb_category > 0 &&
                         <span className="badge rounded-pill bg-secondary">Cat {segment.climb_category}</span>
                     }
                     {segment &&
-                        <span>&nbsp;&nbsp;({distance}, {elevation}, {segment.average_grade}% grade)&nbsp;&nbsp;<img src={segment.elevation_profile}/>
-                        </span>
+                        <span>&nbsp;&nbsp;({distance}, {elevation}, {segment.average_grade}% grade)&nbsp;&nbsp;<img src={segment.elevation_profile}/></span>
                     }
                 </h4>
                 <h5>

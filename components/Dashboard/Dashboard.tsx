@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import Container from 'react-bootstrap/Container';
+
 import { SegmentDetail } from "../Dashboard/SegmentDetail";
 import { Controls } from "../Dashboard/Controls";
 import { UnitsProvider } from "../../contexts/Units";
