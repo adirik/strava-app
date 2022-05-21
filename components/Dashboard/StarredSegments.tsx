@@ -101,7 +101,6 @@ export const StarredSegments: React.ComponentType<{
     starred?.sort((a, b) => {
         return (b.elevation_high - b.elevation_low) - (a.elevation_high - a.elevation_low);
     });
-    const defaultShow = !currentSegment;
 
     var filtered = starred?.slice();
     if (!isStarredLoading) {
@@ -116,7 +115,7 @@ export const StarredSegments: React.ComponentType<{
     }
 
     return (
-        <NavDropdown title={currentSegmentName} id="basic-nav-dropdown" defaultShow={defaultShow}>
+        <NavDropdown title={currentSegmentName} id="basic-nav-dropdown">
           <div className={styles.searchForm}>
               <Form className="d-flex">
                 <FormControl
