@@ -18,6 +18,7 @@ function getActivityIdFromElement(elems: any) {
 }
 
 export const scatterOptionsElapsedTime = {
+    maintainAspectRatio: false,
     onClick: function(evt: any, elems: any) {
         var activityId = getActivityIdFromElement(elems);
         if (activityId) {
@@ -107,6 +108,7 @@ export const scatterOptionsElapsedTime = {
 };
 
 export const scatterOptionsAvgWatts = {
+    maintainAspectRatio: false,
     onClick: function(evt: any, elems: any) {
         var activityId = getActivityIdFromElement(elems);
         if (activityId) {
