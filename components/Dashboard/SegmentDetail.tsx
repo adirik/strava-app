@@ -121,27 +121,30 @@ export const SegmentDetail: React.ComponentType<{
     return (
         <Container>
             <div className={styles.chartHeader}>
-                <h4>
+                <h6>
                     {segment && segment.climb_category > 0 &&
                         <span className="badge rounded-pill bg-secondary">Cat {segment.climb_category}</span>
                     }
-                    {segment &&
-                        <span>&nbsp;&nbsp;{distance}&nbsp;&middot;&nbsp;{elevation}&nbsp;&middot;&nbsp;{segment.average_grade}% grade&nbsp;&nbsp;<img src={segment.elevation_profile}/></span>
+                    {segment && segment.climb_category > 0 &&
+                        <span>&nbsp;</span>
                     }
-                </h4>
+                    {segment &&
+                        <span>{distance}&nbsp;&middot;&nbsp;{elevation}&nbsp;&middot;&nbsp;{segment.average_grade}%&nbsp;&nbsp;<img src={segment.elevation_profile}/></span>
+                    }
+                </h6>
                 {segmentEfforts && segmentEfforts.length > 0 && segment &&
-                    <h5>
+                    <h6>
                         <span>PR: {elapsedTimeToString(segment.athlete_segment_stats.pr_elapsed_time)} on {new Date(segment.athlete_segment_stats.pr_date).toLocaleDateString()}</span>
                         {segmentEfforts.length == 1 &&
                             <span>&nbsp;&middot;&nbsp;{segmentEfforts.length} effort</span>
                         }
                         {segmentEfforts.length > 1 && segmentEfforts.length < segment.athlete_segment_stats.effort_count &&
-                            <span>&nbsp;&middot;&nbsp;Showing {segmentEfforts.length} of {segment.athlete_segment_stats.effort_count} efforts</span>
+                            <span>&nbsp;&middot;&nbsp;{segmentEfforts.length} of {segment.athlete_segment_stats.effort_count} efforts</span>
                         }
                         {segmentEfforts.length > 1 && segmentEfforts.length == segment.athlete_segment_stats.effort_count &&
                             <span>&nbsp;&middot;&nbsp;{segmentEfforts.length} efforts</span>
                         }
-                    </h5>
+                    </h6>
                 }
                 {!segmentEfforts || segmentEfforts.length == 0 &&
                     <h6>
