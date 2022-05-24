@@ -13,6 +13,7 @@ import styles from "./Dashboard.module.css";
 export const Dashboard: React.ComponentType = () => {
     const { queryParams } = useQueryParamsContext();
     const segmentId = queryParams.segmentId;
+    const [ yearRange, setYearRange ] = useState<number[]>([2013, 2023]);
 
     useEffect(() => {
         document.title = `Starred Segment Analyzer`;
@@ -22,9 +23,9 @@ export const Dashboard: React.ComponentType = () => {
         <div>
             <UnitsProvider>
                 <YAxisProvider>
-                    <Controls />
+                    <Controls yearRange={yearRange} setYearRange={setYearRange}/>
                     {segmentId &&
-                        <SegmentDetail />
+                        <SegmentDetail yearRange={yearRange} setYearRange={setYearRange}/>
                     }
                 </YAxisProvider>
             </UnitsProvider>

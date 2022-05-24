@@ -50,11 +50,6 @@ export const StarredSegments: React.ComponentType<{
         history.pushState(null, "", "?s=" + sid);
         setQueryParams({authorizationCode: queryParams.authorizationCode, segmentId: sid});
     }
-    /*
-    function onTextChange(e) {
-        setSegmentSearch(e.target.value);
-    }
-    */
 
     if (isStarredError) {
         const err = starredError;
@@ -109,13 +104,18 @@ export const StarredSegments: React.ComponentType<{
             if (!segmentSearch || segmentSearch.length == 0) {
                 return true;
             } else {
-                return item.name.toLowerCase().startsWith(segmentSearchLowerCase);
+                return item.name.toLowerCase().includes(segmentSearchLowerCase);
             }
         });
     }
 
+    const navDropdownStyle = {
+        fontWeight: 'bold',
+        fontSize: '24px'
+    };
+
     return (
-        <NavDropdown title={currentSegmentName} id="basic-nav-dropdown">
+        <NavDropdown title={currentSegmentName} style={navDropdownStyle} id="basic-nav-dropdown">
           <div className={styles.searchForm}>
               <Form className="d-flex">
                 <FormControl
@@ -130,12 +130,12 @@ export const StarredSegments: React.ComponentType<{
           <div className={styles.scrollableMenu}>
               {isStarredLoading &&
                   <div className={styles.emptyDropdown}>
-                        Loading...
+                        Loading starred segments...
                   </div>
               }
               {segmentSearch && filtered?.length === 0 &&
                   <div className={styles.emptyDropdown}>
-                        <i>No segments found</i>
+                        <i>No segments found with &quot;{segmentSearch}&quot;</i>
                   </div>
               }
               {filtered?.map(item => (

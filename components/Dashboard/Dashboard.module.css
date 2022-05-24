@@ -25,7 +25,7 @@
 }
 
 .emptyDropdown {
-    width: 200px;
+    width: 250px;
     margin: 20px;
 }
 
@@ -47,10 +47,11 @@
 
 .controlsLabel {
   display: inline-block;
-  width: 65px;
+  width: 75px;
   text-align: right;
-  padding-right: 8px;
-  font-size: smaller;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 12px;
 }
 
 .navbarControl {
