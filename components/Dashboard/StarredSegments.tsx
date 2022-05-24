@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ReactElement } from "react";
 import cw from "classnames";
 
 import Button from 'react-bootstrap/Button';
@@ -111,8 +112,26 @@ export const StarredSegments: React.ComponentType<{
 
     const navDropdownStyle = {
         fontWeight: 'bold',
-        fontSize: '24px'
+        fontSize: '16px',
     };
+
+    function formatSegmentName(segmentName: string): ReactElement | string {
+        if (segmentSearch && segmentSearch.length > 0) {
+            const regex = new RegExp(segmentSearch, 'i');
+            const splits = segmentName.split(regex);
+            const matches = segmentName.match(regex);
+            const matchStyle = {
+                fontWeight: 'bold',
+                backgroundColor: 'yellow',
+                color: 'black',
+            };
+            if (splits && matches) {
+                const matchRight = splits.length == 2 ? splits[1] : splits.slice(1).join();
+                return <span><span>{splits[0]}</span><span style={matchStyle}>{matches[0]}</span><span>{matchRight}</span></span>;
+            }
+        }
+        return segmentName;
+    }
 
     return (
         <NavDropdown title={currentSegmentName} style={navDropdownStyle} id="basic-nav-dropdown">
@@ -140,7 +159,7 @@ export const StarredSegments: React.ComponentType<{
               }
               {filtered?.map(item => (
                   <NavDropdown.Item key={item.id} className={styles.borderedItem} active={String(item.id) === segmentId} onClick={() => setCurrentSegmentId(String(item.id))}>
-                        {item.name}&nbsp;{item.climb_category > 0 && <span className="badge rounded-pill bg-secondary">Cat {item.climb_category}</span>}
+                        {formatSegmentName(item.name)}&nbsp;{item.climb_category > 0 && <span className="badge rounded-pill bg-secondary">Cat {item.climb_category}</span>}
                         <br/>
                         ({formatDistance(units, item.distance)}, {formatElevation(units, item.elevation_high - item.elevation_low)}, {item.average_grade}% grade)
                   </NavDropdown.Item>

@@ -40,6 +40,7 @@
 }
 
 .borderedItem {
+  font-size: 14px;
   border-color: lightgray;
   border-width: 1px 0px 0px 0px;
   border-style: solid
