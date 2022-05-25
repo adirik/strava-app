@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ReactElement } from "react";
+import { useSearchParams } from "react-router-dom";
 import cw from "classnames";
 
 import Button from 'react-bootstrap/Button';
@@ -9,7 +10,6 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Search } from 'react-bootstrap-icons';
 
 import { useAPITokenContext } from "../../contexts/APIToken";
-import { useQueryParamsContext } from "../../contexts/QueryParams";
 import { DetailedSegment } from "../../data/stravaDataTypes";
 import { getStarredSegments, getDetailedSegment } from "../../data/useStravaData";
 import { SizeClass, useHorizontalSizeClass } from "../../utils/useSizeClass";
@@ -32,9 +32,10 @@ export const StarredSegments: React.ComponentType<{
     setCurrentSegment
 }) => {
     const { tokenResponse } = useAPITokenContext();
-    const { queryParams, setQueryParams } = useQueryParamsContext();
+    const [ searchParams, setSearchParams ] = useSearchParams();
+    const segmentId = searchParams.get("s");
+
     const sizeClass = useHorizontalSizeClass();
-    const segmentId = queryParams.segmentId;
     const { units } = useUnitsContext();
     const [ segmentSearch, setSegmentSearch ] = useState<any>('');
 
@@ -46,11 +47,6 @@ export const StarredSegments: React.ComponentType<{
         data: starred,
         error: starredError,
     } = starredResult;
-
-    function setCurrentSegmentId(sid: string) {
-        history.pushState(null, "", "?s=" + sid);
-        setQueryParams({authorizationCode: queryParams.authorizationCode, segmentId: sid});
-    }
 
     if (isStarredError) {
         const err = starredError;
@@ -158,7 +154,7 @@ export const StarredSegments: React.ComponentType<{
                   </div>
               }
               {filtered?.map(item => (
-                  <NavDropdown.Item key={item.id} className={styles.borderedItem} active={String(item.id) === segmentId} onClick={() => setCurrentSegmentId(String(item.id))}>
+                  <NavDropdown.Item key={item.id} className={styles.borderedItem} active={String(item.id) === segmentId} onClick={() => setSearchParams({s: String(item.id)})}>
                         {formatSegmentName(item.name)}&nbsp;{item.climb_category > 0 && <span className="badge rounded-pill bg-secondary">Cat {item.climb_category}</span>}
                         <br/>
                         ({formatDistance(units, item.distance)}, {formatElevation(units, item.elevation_high - item.elevation_low)}, {item.average_grade}% grade)

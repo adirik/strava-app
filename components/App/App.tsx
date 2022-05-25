@@ -1,4 +1,6 @@
 import React from "react";
+import { Link, Route, Routes } from "react-router-dom";
+
 import { AuthState, useAuthStateContext } from "../../contexts/AuthState";
 import { OAuth } from "../OAuth/OAuth";
 import { Dashboard } from "../Dashboard/Dashboard";
@@ -21,6 +23,24 @@ export const App: React.ComponentType = () => {
             return <TokenExchange />;
         case AuthState.VALID:
         default:
-            return <Dashboard />;
+            return (
+                <div>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="*" element={<NoMatch />} />
+                  </Routes>
+                </div>
+            );
     }
 };
+
+function NoMatch() {
+  return (
+    <div>
+      <h2>Nothing to see here!</h2>
+      <p>
+        <Link to="/">Go to the home page</Link>
+      </p>
+    </div>
+  );
+}

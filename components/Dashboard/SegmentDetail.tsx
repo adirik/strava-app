@@ -1,10 +1,10 @@
 import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import cw from "classnames";
 
 import Container from 'react-bootstrap/Container';
 
 import { useAPITokenContext } from "../../contexts/APIToken";
-import { useQueryParamsContext } from "../../contexts/QueryParams";
 import { DetailedSegment, DetailedSegmentEffort } from "../../data/stravaDataTypes";
 import { getDetailedSegment, getSegmentEfforts, getActivity } from "../../data/useStravaData";
 import { SizeClass, useHorizontalSizeClass } from "../../utils/useSizeClass";
@@ -42,11 +42,15 @@ export const SegmentDetail: React.ComponentType<{
     setYearRange
 }) => {
     const { tokenResponse } = useAPITokenContext();
-    const { queryParams } = useQueryParamsContext();
     const sizeClass = useHorizontalSizeClass();
     const { units } = useUnitsContext();
     const { yAxis } = useYAxisContext();
-    const segmentId = queryParams.segmentId;
+    const [ searchParams, setSearchParams ] = useSearchParams();
+    const segmentId = searchParams.get("s");
+
+    if (!segmentId) {
+        return <div />;
+    }
 
     const { access_token } = tokenResponse;
 

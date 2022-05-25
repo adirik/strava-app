@@ -4,6 +4,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { BrowserRouter } from "react-router-dom";
 import { App } from '../components/App/App'
 import { QueryParamsProvider } from '../contexts/QueryParams'
 import { APITokenProvider } from '../contexts/APIToken'
@@ -17,7 +18,9 @@ const Home: NextPage = () => {
             <QueryParamsProvider>
                 <APITokenProvider>
                     <AuthStateProvider>
-                        <App />
+                        <BrowserRouter>
+                            <App />
+                        </BrowserRouter>
                     </AuthStateProvider>
                 </APITokenProvider>
             </QueryParamsProvider>

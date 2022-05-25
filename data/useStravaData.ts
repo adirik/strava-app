@@ -46,21 +46,13 @@ export function getSegmentEfforts(segmentId: string, yearRange: number[], numEff
     startDate.setDate(1);
     const endDate = new Date();
     endDate.setFullYear(yearRange[1]);
-    endDate.setMonth(0);
-    endDate.setDate(1);
+    endDate.setMonth(11);
+    endDate.setDate(31);
     const opts = { 
         startDateLocal: startDate.toISOString(), // {Date} ISO 8601 formatted date time.
         endDateLocal: endDate.toISOString(), // {Date} ISO 8601 formatted date time.
         perPage: numEfforts // {Integer} Number of items per page. Defaults to 30.
     };
-    /*
-    const end = new Date(Date.now());
-    const opts = { 
-        startDateLocal: '2009-07-11T05:00:00+00:00', // {Date} ISO 8601 formatted date time.
-        endDateLocal: end.toISOString(), // {Date} ISO 8601 formatted date time.
-        perPage: numEfforts // {Integer} Number of items per page. Defaults to 30.
-    };
-    */
     const segmentEffortResult = useQuery<DetailedSegmentEffort[], Error>(
         "segmentEfforts" + segmentId + "/" + yearRange[0] + "-" + yearRange[1],
         () => stravaAPI(`/segment_efforts?segment_id=${segmentId}&start_date_local=${opts.startDateLocal}&end_date_local=${opts.endDateLocal}&per_page=${opts.perPage}`, token),
