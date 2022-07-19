@@ -22,12 +22,26 @@ const queryOptions = {
     refetchOnWindowFocus: false,
 };
 
-export function getStarredSegments(segmentSearch: string, token: string) {
+export function getStarredSegments(token: string) {
+    const perPage = 30;
     const starredResult = useQuery<SummarySegment[], Error>(
-        "starred",
-        () => stravaAPI(`/segments/starred?page=1&per_page=50`, token),
+        "starred", async () => {
+            let page = 1;
+            let data = <any>[];
+            while (true) {
+                const pageData = await stravaAPI(`/segments/starred?page=${page}&per_page=${perPage}`, token);
+                if (pageData && pageData.length > 0) {
+                    data = data.concat(pageData);
+                    page++;
+                } else {
+                    break;
+                }
+            }
+            return data;
+        },
         queryOptions
     );
+
     return starredResult;
 }
 

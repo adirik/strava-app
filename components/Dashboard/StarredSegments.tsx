@@ -40,7 +40,7 @@ export const StarredSegments: React.ComponentType<{
     const [ segmentSearch, setSegmentSearch ] = useState<any>('');
 
     const { access_token } = tokenResponse;
-    const starredResult = getStarredSegments(segmentSearch, access_token);
+    const starredResult = getStarredSegments(access_token);
     const {
         isLoading: isStarredLoading,
         isError: isStarredError,
